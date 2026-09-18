@@ -1,5 +1,5 @@
 use dotenvy;
-use obws::Client;
+use obws::{Client, responses::scenes::Scenes};
 use std::path::PathBuf;
 
 #[tokio::main]
@@ -9,7 +9,16 @@ async fn main() {
     let password: String = std::env::var("PASSWORD").unwrap();
     let port: u16 = std::env::var("PORT").unwrap().parse().unwrap();
 
-    let client = Client::connect(server_ip, port, Some(password)).await.unwrap();
-    let version = client.general().version().await.unwrap();
-    println!("{:#?}", version);
+    let client: Client = Client::connect(server_ip, port, Some(password))
+        .await
+        .unwrap();
+
+    let scenes: Scenes = client.scenes().list().await.unwrap();
+
+    client
+        .scenes()
+        .set_current_program_scene(scenes.scenes[2].id.clone())
+        .await
+        .unwrap();
+    println!("scenes: {:#?}", scenes);
 }
