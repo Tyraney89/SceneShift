@@ -22,5 +22,6 @@ async fn main() {
         .set_current_program_scene(scenes.scenes[current_scene_index].id.clone())
         .await
         .unwrap();
+    println!("{:#?}" ,scenes);
     println!("scene set to: {}", scenes.scenes[current_scene_index].id.name);
 }
