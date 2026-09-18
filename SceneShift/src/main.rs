@@ -14,11 +14,13 @@ async fn main() {
         .unwrap();
 
     let scenes: Scenes = client.scenes().list().await.unwrap();
+    
+    let current_scene_index: usize = 0;
 
     client
         .scenes()
-        .set_current_program_scene(scenes.scenes[2].id.clone())
+        .set_current_program_scene(scenes.scenes[current_scene_index].id.clone())
         .await
         .unwrap();
-    println!("scenes: {:#?}", scenes);
+    println!("scene set to: {}", scenes.scenes[current_scene_index].id.name);
 }
